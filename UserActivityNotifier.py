@@ -19,7 +19,7 @@ class UserActivityNotifier(UserLastActivityScrapper):
             title=handle + ' has submitted a problem',
             message=problem,
             app_name='Stalker',
-            app_icon='D:\\Academics\\Projects\\Stalker\\icon.ico',
+            app_icon='icon.ico',
             timeout=5)
 
     def check_new_codeforces(self):

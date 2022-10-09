@@ -1,4 +1,4 @@
-DATABASE = 'D:\\Academics\\Projects\\Stalker\\UserData.sqlite'
+DATABASE = 'UserData.sqlite'
 
 
 def restart():
