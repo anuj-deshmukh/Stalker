@@ -22,6 +22,8 @@ from UserStats import UserStats
 from UserActivityNotifier import UserActivityNotifier
 
 app = customtkinter.CTk()
+check_codeforces = 1
+check_codechef = 1
 
 conn = sqlite3.connect(DATABASE)
 cur = conn.cursor()
@@ -133,6 +135,34 @@ class Buttons:
         data = self.button_id[name_button]
         stats = UserStats(data[1], data[2], data[3])
 
+    def event_toggle_codeforces(self, toggle_cf: customtkinter.CTkButton):
+        print('button toggle cf')
+        global check_codeforces
+        if check_codeforces == 1:
+            check_codeforces = 0
+            toggle_cf.configure(fg_color='#444C58',
+                                text_font=('@Batang', 23),
+                                text_color='grey')
+        else:
+            check_codeforces = 1
+            toggle_cf.configure(fg_color='#217FF9',
+                                text_font=('@Batang', 23, 'bold'),
+                                text_color='white')
+
+    def event_toggle_codechef(self, toggle_cc: customtkinter.CTkButton):
+        print('button toggle cc')
+        global check_codechef
+        if check_codechef == 1:
+            check_codechef = 0
+            toggle_cc.configure(fg_color='#444C58',
+                                text_font=('@Batang', 23),
+                                text_color='grey')
+        else:
+            check_codechef = 1
+            toggle_cc.configure(fg_color='#217FF9',
+                                text_font=('@Batang', 23, 'bold'),
+                                text_color='white')
+
 
 class Display(Buttons):
 
@@ -158,11 +188,38 @@ class Display(Buttons):
 
         if user_cnt >= 12:
             add_button.configure(state=tkinter.DISABLED)
-        pass
+        self.toggle_buttons(app)
+
+    def toggle_buttons(self, app: customtkinter.CTk):
+        toggle_cf = customtkinter.CTkButton(
+            master=app,
+            width=385,
+            height=70,
+            border_width=0,
+            corner_radius=4,
+            text="Codeforces",
+            command=lambda: self.event_toggle_codeforces(toggle_cf),
+            text_font=('@Batang', 23, 'bold'),
+            hover='False')
+        toggle_cf.place(x=10, y=10)
+        toggle_cf.configure(fg_color='#217FF9', text_color='white')
+
+        toggle_cc = customtkinter.CTkButton(
+            master=app,
+            width=385,
+            height=70,
+            border_width=0,
+            corner_radius=4,
+            text="Codechef",
+            command=lambda: self.event_toggle_codechef(toggle_cc),
+            text_font=('@Batang', 23, 'bold'),
+            hover='False')
+        toggle_cc.place(x=405, y=10)
+        toggle_cc.configure(fg_color='#217FF9', text_color='white')
 
     def display_user(self, app: customtkinter.CTk, cnt, data) -> None:
         color = ["#494D59", '#373943']
-        y_pos = 40 * (cnt - 1) + 10
+        y_pos = 40 * (cnt - 1) + 100
         name, cf, cc = data[1], data[2], data[3]
 
         # × delete button
@@ -243,12 +300,14 @@ def stalker_window():
 
 
 def scrape_friends(friend_list):
+    global check_codechef
+    global check_codeforces
     while True:
         if close_notifier:
             sys.exit()
         for friend in friend_list:
-            friend.check_new_codeforces()
-            friend.check_new_codechef()
+            if check_codeforces: friend.check_new_codeforces()
+            if check_codechef: friend.check_new_codechef()
 
 
 def notifier():
