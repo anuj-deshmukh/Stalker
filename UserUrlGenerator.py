@@ -23,20 +23,26 @@ class UserUrlGenerator:
 
     def fetch_soup_codeforces(self) -> BeautifulSoup():
         print(self.name, 'fetch_soup_codeforces()')
-        req = requests.get(self.activity_url_codeforces)
-        html = req.content
-        soup = BeautifulSoup(html, 'lxml')
-        return soup
+        try:
+            req = requests.get(self.activity_url_codeforces)
+            html = req.content
+            soup = BeautifulSoup(html, 'lxml')
+            return soup
+        except Exception as ex:
+            print(ex)
 
     def fetch_soup_codechef(self) -> BeautifulSoup():
         print(self.name, 'fetch_soup_codechef()')
-        header = {
-            'x-requested-with':
-            'XMLHttpRequest',
-            'user-agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36'
-        }
-        req = requests.get(self.activity_url_codechef, headers=header)
-        html = req.content
-        soup = BeautifulSoup(html, 'lxml')
-        return soup
+        try:
+            header = {
+                'x-requested-with':
+                'XMLHttpRequest',
+                'user-agent':
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36'
+            }
+            req = requests.get(self.activity_url_codechef, headers=header)
+            html = req.content
+            soup = BeautifulSoup(html, 'lxml')
+            return soup
+        except Exception as ex:
+            print(ex)

@@ -1,4 +1,6 @@
+import os
 import re
+import sys
 from bs4 import BeautifulSoup
 import requests
 import urllib.request, urllib.parse, urllib.error
@@ -136,3 +138,12 @@ class UserStats(UserUrlGenerator):
             'small', text=re.compile("(Highest Rating.*)")).string.split()[-1]
         self.rating_max_codechef = rating_max[:len(rating_max) - 1]
         print('Codechef Rating Max:', self.rating_max_codechef)
+
+
+if __name__ == '__main__':
+    sys.argv[1] = sys.argv[1].replace('_', ' ')
+    print('—' * 50)
+    print(sys.argv[1], sys.argv[2], sys.argv[3], sep = ' | ')
+    print('—' * 50)
+    stats = UserStats(sys.argv[1], sys.argv[2], sys.argv[3])
+    os.system('pause >nul')

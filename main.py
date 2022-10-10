@@ -12,6 +12,7 @@ def restart():
 
 import os, sys
 import threading
+import time
 import tkinter
 import customtkinter
 import sqlite3
@@ -133,7 +134,7 @@ class Buttons:
 
     def event_stats(self, name_button: customtkinter.CTkButton):
         data = self.button_id[name_button]
-        stats = UserStats(data[1], data[2], data[3])
+        os.system(f"start python3 UserStats.py {data[1].replace(' ', '_')} {data[2]} {data[3]}")
 
     def event_toggle_codeforces(self, toggle_cf: customtkinter.CTkButton):
         print('button toggle cf')
@@ -305,6 +306,8 @@ def scrape_friends(friend_list):
     while True:
         if close_notifier:
             sys.exit()
+        if check_codechef == check_codeforces == 0:
+            time.sleep(5)
         for friend in friend_list:
             if check_codeforces: friend.check_new_codeforces()
             if check_codechef: friend.check_new_codechef()
